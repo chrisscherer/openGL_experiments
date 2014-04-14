@@ -33,39 +33,47 @@
       // var geometry = new THREE.PlaneGeometry(5, 5, 5, 5);
 
 
-      var geometry = new THREE.Geometry();
-      var material = new THREE.MeshDepthMaterial( { color: 0x0000ff } );
-      var hex = new THREE.Mesh( geometry, material );
-
-      var radius = 1
-
-      point0 = new THREE.Vector3(0,0,0)
-      point1 = new THREE.Vector3(0, radius, 0)
-      point2 = new THREE.Vector3(1, .5 * radius, 0)
-      point3 = new THREE.Vector3(1, -.5 * radius, 0)
-      point4 = new THREE.Vector3(-1, .5 * radius, 0)
-      point5 = new THREE.Vector3(-1, -.5 * radius, 0)
-      point6 = new THREE.Vector3(0, -1 * radius, 0)
 
 
-      geometry.vertices.push( point0 );
-      geometry.vertices.push( point1 );
-      geometry.vertices.push( point2 );
-      geometry.vertices.push( point3 );
-      geometry.vertices.push( point4 );
-      geometry.vertices.push( point5 );
-      geometry.vertices.push( point6 );
+      function makeHex(radius, z){
+        var geometry = new THREE.Geometry();
+        var material = new THREE.MeshDepthMaterial( { color: 0x0000ff, wireframe: 'true' } );
+        var hex = new THREE.Mesh( geometry, material );
 
-      geometry.faces.push(new THREE.Face3(0,1,2));
-      geometry.faces.push(new THREE.Face3(0,2,3));
-      geometry.faces.push(new THREE.Face3(0,3,6));
-      geometry.faces.push(new THREE.Face3(0,4,5));
-      geometry.faces.push(new THREE.Face3(0,5,6));
-      geometry.faces.push(new THREE.Face3(0,1,4));
+        point0 = new THREE.Vector3(0,radius,z)
+        point1 = new THREE.Vector3(0, radius, z)
+        point2 = new THREE.Vector3(1, .5 * radius, z)
+        point3 = new THREE.Vector3(1, -.5 * radius, z)
+        point4 = new THREE.Vector3(-1, .5 * radius, z)
+        point5 = new THREE.Vector3(-1, -.5 * radius, z)
+        point6 = new THREE.Vector3(0, -1 * radius, z)
 
 
+        geometry.vertices.push( point0 );
+        geometry.vertices.push( point1 );
+        geometry.vertices.push( point2 );
+        geometry.vertices.push( point3 );
+        geometry.vertices.push( point4 );
+        geometry.vertices.push( point5 );
+        geometry.vertices.push( point6 );
 
-      scene.add( hex );
+        geometry.faces.push(new THREE.Face3(0,2,1));
+        geometry.faces.push(new THREE.Face3(0,3,2));
+        geometry.faces.push(new THREE.Face3(0,6,3));
+        geometry.faces.push(new THREE.Face3(0,4,5));
+        geometry.faces.push(new THREE.Face3(0,5,6));
+        geometry.faces.push(new THREE.Face3(0,1,4));
+
+        return hex
+      }
+
+
+      var hex1 = makeHex(1, 0);
+      var hex2 = makeHex(1, .2);
+
+
+      scene.add( hex1 );
+      scene.add( hex2 );
 
 
       function grabClosestVert(x, y){
